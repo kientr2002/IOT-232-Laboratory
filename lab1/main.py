@@ -5,8 +5,8 @@ import random
 from Adafruit_IO import MQTTClient
 
 AIO_FEED_IDs = ["button1", "button2"]
-AIO_USERNAME = ""
-AIO_KEY = ""
+AIO_USERNAME = "kientranvictory"
+AIO_KEY = "aio_IkCq78u30BgR6h6RjHFFH9qa3r0b"
 
 def connected(client):
     print("Ket noi thanh cong ...")
@@ -45,20 +45,20 @@ while True:
             print("Temperature is publishing value:")   
             sensor_type = 1
             temp = random.randint(10, 20)
-            print(temp)
+            print(str(temp) + "oC")
             client.publish("sensor1", temp)
             
         elif sensor_type == 1:
             print("Humidity is publishing value: ")
             sensor_type = 2           
             humi = random.randint(50, 70)
-            print(humi)            
+            print(str(humi) + "%")            
             client.publish("sensor2", humi)
         elif sensor_type == 2:
             print("Light is publishing value: ")
             sensor_type = 0
             light = random.randint(100, 500)
-            print(light)
+            print(str(light) + "lux")
             client.publish("sensor3", light)       
         print("====================================") 
     time.sleep(1)
