@@ -5,7 +5,8 @@ import random
 from Adafruit_IO import MQTTClient
 
 AIO_FEED_IDs = ["button1", "button2"]
-# insert key and username here
+AIO_USERNAME = ""
+AIO_KEY = ""
 
 def connected(client):
     print("Ket noi thanh cong ...")

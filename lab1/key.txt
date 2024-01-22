@@ -1,2 +1,2 @@
-AIO_USERNAME = "kientranvictory"
-AIO_KEY = "aio_btpQ30kSRKG4wIiH3yUCnD6u9FFU"
+username: kientranvictory
+key: aio_oHpc018L0sLR43ersvdaajJHihoR
