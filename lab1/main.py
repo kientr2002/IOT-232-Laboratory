@@ -5,8 +5,8 @@ import random
 from Adafruit_IO import MQTTClient
 
 AIO_FEED_IDs = ["button1", "button2"]
-AIO_USERNAME = ""
-AIO_KEY = ""
+AIO_USERNAME = "kientranvictory"
+AIO_KEY = "aio_jlCh53J4qSKvejYMmW7O8XY3NCuw"
 
 def connected(client):
     print("Ket noi thanh cong ...")
@@ -21,7 +21,9 @@ def disconnected(client):
     sys.exit (1)
 
 def message(client , feed_id , payload):
+    print("====================================") 
     print("Nhan du lieu: " + payload + "; Feed_id:" + feed_id) 
+    print("====================================") 
 
 client = MQTTClient(AIO_USERNAME , AIO_KEY)
 client.on_connect = connected
