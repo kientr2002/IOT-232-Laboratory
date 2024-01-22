@@ -12,9 +12,9 @@
       ### `sudo apt install python3-pip`
     * Install some extensions in VS Code. It includes:
       * Python:
-       
+       ![Python](https://github.com/kientr2002/IOT-232-Laboratory/blob/main/image/python.png)
       * Code Runner:
-        
+       ![Python](https://github.com/kientr2002/IOT-232-Laboratory/blob/main/image/coderunner.png)
     * On Terminal, you also install some python library, such as:
       * Adafruit-io:
         ### `pip install adafruit-io`
