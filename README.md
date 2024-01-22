@@ -7,7 +7,7 @@
   * Visual Studio Code: You can download from [here](https://code.visualstudio.com/download).
   * After installed VS Code, We will :
     * Install python package:
-     ### `sudo apt install python3`
+      ### `sudo apt install python3`
     * Install pip to download all python library:
       ### `sudo apt install python3-pip`
     * Install some extensions in VS Code. It includes:
@@ -19,4 +19,4 @@
       * Adafruit-io:
         ### `pip install adafruit-io`
       * And so on...
-  * You also reference a serie of video by PhD. Le Trong Nhan from [here](https://www.youtube.com/watch?v=5CtrNZ0aI88&list=PLyD_mbw_VznORt7CY33jGoCamjVOPyPQj)      
+* You also reference a serie of video by PhD. Le Trong Nhan from [here](https://www.youtube.com/watch?v=5CtrNZ0aI88&list=PLyD_mbw_VznORt7CY33jGoCamjVOPyPQj)      
