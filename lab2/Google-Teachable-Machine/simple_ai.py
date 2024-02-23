@@ -24,6 +24,6 @@ def ai_detector(camera, model, class_names):
     prediction = model.predict(image)
     index = np.argmax(prediction)
     class_name = class_names[index].strip()
-
+    keyboard_input = cv2.waitKey(1)
     return class_name
     

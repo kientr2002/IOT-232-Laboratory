@@ -18,8 +18,8 @@ model = load_model("keras_model.h5", compile=False)
 class_names = open("labels.txt", "r").readlines()
 
 # CAMERA can be 0 or 1 based on default camera of your computer
-camera = cv2.VideoCapture("http://192.168.50.37:4747/video")
-
+camera = cv2.VideoCapture(0)
+#"http://192.168.50.37:4747/video"
 
 AIO_FEED_IDs = ["button1", "button2"]
 AIO_USERNAME = "kientranvictory"
