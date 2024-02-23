@@ -23,7 +23,7 @@ camera = cv2.VideoCapture(0)
 
 AIO_FEED_IDs = ["button1", "button2"]
 AIO_USERNAME = "kientranvictory"
-AIO_KEY = ""
+AIO_KEY = "aio_xvdM95dEZwofbTwIOy7D6hcUvwol"
 
 def connected(client):
     print("Ket noi thanh cong ...")
@@ -53,9 +53,11 @@ client.loop_background()
 counter = 10
 counter_ai = 1
 sensor_type = 0
+
+ai_result_previous = ""
 while True:
     ai_result = ai_detector(camera, model, class_names)
-    print("AI output: ", ai_result)
+
     counter = counter - 1
     if counter <= 0:
         counter = 10
@@ -84,5 +86,9 @@ while True:
     
     counter_ai = counter_ai - 1
     if counter_ai <= 0:
+        print("AI output: ", ai_result)
+        if ai_result != ai_result_previous:
+            client.publish("ai", ai_result)
+        ai_result_previous = ai_result
         counter_ai = 1
     time.sleep(1)
