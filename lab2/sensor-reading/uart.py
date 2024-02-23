@@ -7,34 +7,42 @@ def getPort():
     for i in range(0, N):
         port = ports[i]
         strPort = str(port)
-        if "USB Serial Device" in strPort:
+        if "com0com" in strPort:
             splitPort = strPort.split(" ")
             commPort = (splitPort[0])
     return commPort
-if getPort() == "None":
-  ser = serial.Serial( port=getPort(), baudrate=115200)
-  print(ser)
 
 mess = ""
+
 def processData(client, data):
     data = data.replace("!", "")
     data = data.replace("#", "")
     splitData = data.split(":")
     print(splitData)
-    if splitData[1] == "TEMP":
-        client.publish("bbc-temp", splitData[2])
+    if splitData[1] == "T":
+        client.publish("sensor1", splitData[2])
 
-mess = ""
 def readSerial(client):
-    bytesToRead = ser.inWaiting()
-    if (bytesToRead > 0):
+    commPort = getPort()
+    if commPort != "None":
+        ser = serial.Serial(port=commPort, baudrate=115200)
+        print(ser)
+
         global mess
-        mess = mess + ser.read(bytesToRead).decode("UTF-8")
-        while ("#" in mess) and ("!" in mess):
-            start = mess.find("!")
-            end = mess.find("#")
-            processData(client, mess[start:end + 1])
-            if (end == len(mess)):
-                mess = ""
-            else:
-                mess = mess[end+1:]
+        while True:
+            bytesToRead = ser.inWaiting()
+            if bytesToRead > 0:
+                mess += ser.read(bytesToRead).decode("UTF-8")
+                while "#" in mess and "!" in mess:
+                    start = mess.find("!")
+                    end = mess.find("#")
+                    processData(client, mess[start:end + 1])
+                    if end == len(mess):
+                        mess = ""
+                    else:
+                        mess = mess[end + 1:]
+    else:
+        print("No serial port available.")
+
+# Example usage:
+# readSerial(client)  # Call this function with your MQTT client
