@@ -10,8 +10,9 @@ import numpy as np
 captured_label = ""
 previous_capture_label = ""
 score = ""
+flag = 0
 AIO_USERNAME = "kientranvictory"
-AIO_KEY = ""
+AIO_KEY = "aio_eGZI9927N6GAWSVrbEFxtB0TaRjz"
 
 def connected(client):
     print("Ket noi thanh cong ...")
@@ -28,33 +29,26 @@ def message(client, feed_id, payload):
     print("Nhan du lieu: " + payload + "; Feed_id:" + feed_id) 
     print("====================================") 
 
-def publish_sensor_data():
-    global captured_label
-    global score
-    client = MQTTClient(AIO_USERNAME, AIO_KEY)
-    client.on_connect = connected
-    client.on_disconnect = disconnected
-    client.on_message = message
-    client.on_subscribe = subscribe
-
-    client.connect()
+def counter_second():
+    # global captured_label
+    global flag
+    counter = 5    
     while True:
-        counter = 5
-        while True:
-            counter -= 5
-            if counter <= 0:
-                counter = 5
-                print("AI-detected is publishing value:", captured_label) 
-                client.publish("ai", captured_label)
-            time.sleep(1)  # Sleep 1 second before publishing again
+        counter = counter - 1
+        if counter <= 0:
+            counter = 5
+            flag = 1
+        time.sleep(1)  # Sleep 1 second before publishing again
+                
+            
 
 # Start publishing sensor data in a separate thread
-publish_thread = threading.Thread(target=publish_sensor_data)
+publish_thread = threading.Thread(target=counter_second)
 publish_thread.start()
 
 # Function to perform model prediction
 def predict_image(image, model, class_names):
-    global captured_label
+    global captured_label, counter, flag
     # Resize the raw image
     image = cv2.resize(image, (224, 224), interpolation=cv2.INTER_AREA)
 
@@ -63,17 +57,30 @@ def predict_image(image, model, class_names):
 
     # Normalize the image array
     image = (image / 127.5) - 1
+    if flag == 1:
+        flag = 0
+        # Predicts the model
+        prediction = model.predict(image)
+        index = np.argmax(prediction)
+        class_name = class_names[index]
+        confidence_score = prediction[0][index]
 
-    # Predicts the model
-    prediction = model.predict(image)
-    index = np.argmax(prediction)
-    class_name = class_names[index]
-    confidence_score = prediction[0][index]
+        # Print prediction and confidence score
+        captured_label = class_name[2:].strip()
+        print("Class:", class_name[2:], end="")
+        print("Confidence Score:", str(np.round(confidence_score * 100))[:-2], "%")
+        
+        # set up for adafruit-io
+        client = MQTTClient(AIO_USERNAME, AIO_KEY)
+        client.on_connect = connected
+        client.on_disconnect = disconnected
+        client.on_message = message
+        client.on_subscribe = subscribe
 
-    # Print prediction and confidence score
-    captured_label = class_name[2:].strip()
-    print("Class:", class_name[2:], end="")
-    print("Confidence Score:", str(np.round(confidence_score * 100))[:-2], "%")
+        client.connect()
+        print("AI-detected is publishing value:", captured_label) 
+        client.publish("ai", captured_label)
+    
 
 # Load the model
 model = load_model("keras_model.h5", compile=False)
