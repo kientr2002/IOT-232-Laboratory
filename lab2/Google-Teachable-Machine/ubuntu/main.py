@@ -18,8 +18,7 @@ model = load_model("keras_model.h5", compile=False)
 class_names = open("labels.txt", "r").readlines()
 
 # CAMERA can be 0 or 1 based on default camera of your computer
-# camera = cv2.VideoCapture(0)
-camera = cv2.VideoCapture("http://192.168.50.37:4747/video")
+
 
 AIO_FEED_IDs = ["button1", "button2"]
 AIO_USERNAME = "kientranvictory"
@@ -51,13 +50,10 @@ client.connect()
 client.loop_background()
 
 counter = 10
-counter_ai = 1
 sensor_type = 0
 
 ai_result_previous = ""
 while True:
-    ai_result = ai_detector(camera, model, class_names)
-
     counter = counter - 1
     if counter <= 0:
         counter = 10
@@ -83,12 +79,4 @@ while True:
             print(str(light) + "lux")
             client.publish("sensor3", light)       
         print("====================================") 
-    
-    counter_ai = counter_ai - 1
-    if counter_ai <= 0:
-        print("AI output: ", ai_result)
-        if ai_result != ai_result_previous:
-            client.publish("ai", ai_result)
-        ai_result_previous = ai_result
-        counter_ai = 1
     time.sleep(1)
