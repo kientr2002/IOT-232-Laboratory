@@ -12,7 +12,7 @@ previous_capture_label = ""
 score = ""
 flag = 0
 AIO_USERNAME = "kientranvictory"
-AIO_KEY = "aio_eGZI9927N6GAWSVrbEFxtB0TaRjz"
+AIO_KEY = ""
 
 def connected(client):
     print("Ket noi thanh cong ...")
