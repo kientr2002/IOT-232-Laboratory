@@ -23,7 +23,7 @@ camera = cv2.VideoCapture(0)
 
 AIO_FEED_IDs = ["button1", "button2"]
 AIO_USERNAME = "kientranvictory"
-AIO_KEY = ""
+AIO_KEY = "aio_SAeo17ZGX9KyVD56RtDiVwP6RBZg"
 
 def connected(client):
     print("Ket noi thanh cong ...")
