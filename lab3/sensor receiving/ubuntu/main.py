@@ -18,7 +18,7 @@ thread_exit_flag = 0
 
 AIO_FEED_IDs = ["button1", "button2"]
 AIO_USERNAME = "kientranvictory"
-AIO_KEY = "aio_gZVk25Pch69rGremo79xnepw6PWm"
+AIO_KEY = ""
 
 
 ##thread counter second (every 5 second => trigger flag for predict and capture thread)

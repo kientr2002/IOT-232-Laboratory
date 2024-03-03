@@ -2,25 +2,20 @@ from serial import Serial
 import serial.tools.list_ports
 import time
 
-def getPort():
-    ports = serial.tools.list_ports.comports()
-    N = len(ports)
-    commPort = "None"
-    for i in range(0, N):
-        port = ports[i]
-        strPort = str(port)
-        print(strPort)
-        if "USB" in strPort:
-            splitPort = strPort.split(" ")
-            commPort = (splitPort[0])
-    return "/dev/pts/17"
+port_1 = "/dev/pts/17"
+port_2 = "/dev/pts/16"
 
+
+def getPort():
+    global port_1
+    return port_1
 mess = ""
 
 def processData(client, data):
     data = data.replace("s", "")
     data = data.replace("e", "")
     splitData = data.split(":")
+    print(getPort() + " received data:")
     print(splitData)
     if splitData[1] == "T":
         client.publish("sensor1", splitData[2])
