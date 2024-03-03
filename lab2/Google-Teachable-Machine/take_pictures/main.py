@@ -2,7 +2,7 @@ import cv2
 import time
 
 # IP camera URL
-ip_camera_url = "http://192.168.50.37:4747/video"
+ip_camera_url = "http://192.168.195.188:4747/video"
 
 # Open a connection to the IP camera
 cap = cv2.VideoCapture(ip_camera_url)
