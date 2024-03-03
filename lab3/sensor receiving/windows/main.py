@@ -18,7 +18,7 @@ thread_exit_flag = 0
 
 AIO_FEED_IDs = ["button1", "button2"]
 AIO_USERNAME = "kientranvictory"
-AIO_KEY = ""
+AIO_KEY = "aio_rbOJ08qu6UUvXnejufg1yJ7dYNot"
 
 
 ##thread counter second (every 5 second => trigger flag for predict and capture thread)
@@ -63,14 +63,14 @@ def message(client, feed_id, payload):
     print("====================================") 
     if feed_id == "button1":
         if payload == "0":
-            writeData("1")
+            writeData("BUTTON 1 TURN OFF!")
         else:
-            writeData("2")
+            writeData("BUTTON 1 TURN ON!")
     if feed_id == "button2":
         if payload == "0":
-            writeData("3")
+            writeData("BUTTON 2 TURN OFF!")
         else:
-            writeData("4")
+            writeData("BUTTON 2 TURN ON!")
 
 
 client = MQTTClient(AIO_USERNAME, AIO_KEY)
