@@ -13,9 +13,10 @@ import serial.tools.list_ports
 captured_label = ""
 previous_capture_label = ""
 score = ""
-flag = 0
+sensor_reading_flag = 0
 thread_exit_flag = 0
 
+AIO_FEED_IDs = ["button1", "button2"]
 AIO_USERNAME = "kientranvictory"
 AIO_KEY = ""
 
@@ -23,16 +24,16 @@ AIO_KEY = ""
 ##thread counter second (every 5 second => trigger flag for predict and capture thread)
 def counter_second():
     # global captured_label
-    global flag, thread_exit_flag
+    global sensor_reading_flag, thread_exit_flag
     counter = 5    
     while True:
-        print(thread_exit_flag)
+        # print(thread_exit_flag)
         if thread_exit_flag == 1:
             break
         counter = counter - 1
         if counter <= 0:
             counter = 5
-            flag = 1
+            sensor_reading_flag = 1
         time.sleep(1)  # Sleep 1 second before publishing again
 
                 
@@ -40,14 +41,16 @@ def counter_second():
 
 # Start publishing sensor data in a separate thread
 publish_thread = threading.Thread(target=counter_second)
-publish_thread.start()
+
 
 
 ##init configuration for predict and capture thread
 def connected(client):
     print("Ket noi thanh cong ...")
+    for topic in AIO_FEED_IDs:
+        client.subscribe(topic)
 
-def subscribe(client, userdata, mid, granted_qos):
+def subscribe(client , userdata , mid , granted_qos):
     print("Subscribe thanh cong ...")
 
 def disconnected(client):
@@ -75,10 +78,12 @@ client.on_connect = connected
 client.on_disconnect = disconnected
 client.on_message = message
 client.on_subscribe = subscribe
+client.connect()
+client.loop_background()
 
 # Function to perform model prediction
 def predict_image_and_read_serial(image, model, class_names):
-    global captured_label, counter, flag
+    global captured_label, counter, sensor_reading_flag
     # Resize the raw image
     image = cv2.resize(image, (224, 224), interpolation=cv2.INTER_AREA)
 
@@ -87,8 +92,8 @@ def predict_image_and_read_serial(image, model, class_names):
 
     # Normalize the image array
     image = (image / 127.5) - 1
-    if flag == 1:
-        flag = 0
+    if sensor_reading_flag == 1:
+        sensor_reading_flag = 0
         # Predicts the model
         prediction = model.predict(image)
         index = np.argmax(prediction)
@@ -126,14 +131,16 @@ def readSerialFunc(client):
       
     
 sensor_reading_thread = threading.Thread(target=readSerialFunc, args={client})
-sensor_reading_thread.start()
+
 
 
 
 
 ## predict and capture thread
-def predict_and_capture():
+def main():
     global thread_exit_flag
+    publish_thread.start()
+    sensor_reading_thread.start()
     while True:
         # Grab the web camera's image
         
@@ -155,7 +162,7 @@ def predict_and_capture():
         
 
 # Start capturing frames
-predict_and_capture()
+main()
 
 # Release the camera and close all windows
 camera.release()
