@@ -15,7 +15,7 @@ def getPort():
 mess = ""
 
 def processData(client, data):
-    data = data.replace("!", "")
+    data = data.replace("!zz", "")
     data = data.replace("#", "")
     splitData = data.split(":")
     if len(splitData) >= 2:  # Kiểm tra xem có đủ phần tử để truy cập không
