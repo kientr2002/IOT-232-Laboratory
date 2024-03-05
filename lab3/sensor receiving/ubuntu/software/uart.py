@@ -2,8 +2,8 @@ from serial import Serial
 import serial.tools.list_ports
 import time
 
-port_1 = "/dev/pts/17"
-port_2 = "/dev/pts/16"
+port_1 = "/dev/pts/12"
+port_2 = "/dev/pts/11"
 
 
 def getPort():
@@ -19,6 +19,8 @@ def processData(client, data):
     print(splitData)
     if splitData[1] == "T":
         client.publish("sensor1", splitData[2])
+    if splitData[1] == "H":
+        client.publish("sensor2", splitData[2])
 
 
 if getPort() != "None":
