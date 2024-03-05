@@ -18,7 +18,7 @@ thread_exit_flag = 0
 
 AIO_FEED_IDs = ["button1", "button2"]
 AIO_USERNAME = "kientranvictory"
-AIO_KEY = "aio_rbOJ08qu6UUvXnejufg1yJ7dYNot"
+AIO_KEY = ""
 
 
 ##thread counter second (every 5 second => trigger flag for predict and capture thread)
@@ -150,8 +150,7 @@ def main():
         cv2.imshow("Webcam Image", image)
 
         # Perform prediction in a separate thread
-        prediction_thread = threading.Thread(target=predict_image_and_read_serial, args=(image, model, class_names))
-        prediction_thread.start()
+        predict_image_and_read_serial(image,model,class_names)
 
         # Listen to the keyboard for presses
         keyboard_input = cv2.waitKey(1)

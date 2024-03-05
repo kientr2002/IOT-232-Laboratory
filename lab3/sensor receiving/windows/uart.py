@@ -22,6 +22,8 @@ def processData(client, data):
     print(splitData)
     if splitData[1] == "T":
         client.publish("sensor1", splitData[2])
+    if splitData[1] == "H":
+        client.publish("sensor2", splitData[2])
 
 
 
