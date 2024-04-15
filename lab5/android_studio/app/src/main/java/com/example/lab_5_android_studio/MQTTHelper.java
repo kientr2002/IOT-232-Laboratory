@@ -20,9 +20,9 @@ public class MQTTHelper {
 
     public final String[] arrayTopics = {"kientranvictory/feeds/sensor1", "kientranvictory/feeds/sensor2", "kientranvictory/feeds/button1", "kientranvictory/feeds/button2"};
 
-    final String clientId = "12345678";
+    final String clientId = "26092002";
     final String username = "kientranvictory";
-    final String password = "";
+    final String password = ""; //them vao ada va luon luon xoa truoc khi push github
 
     final String serverUri = "tcp://io.adafruit.com:1883";
 
@@ -91,17 +91,18 @@ public class MQTTHelper {
     }
 
     private void subscribeToTopic() {
-        for(int i = 0; i < arrayTopics.length; i++) {
+        for (int i = 0; i < arrayTopics.length; i++) {
+            final int index = i;
             try {
                 mqttAndroidClient.subscribe(arrayTopics[i], 0, null, new IMqttActionListener() {
                     @Override
                     public void onSuccess(IMqttToken asyncActionToken) {
-                        Log.d("TEST", "Subscribed!");
+                        Log.d(arrayTopics[index], ":Subscribed!");
                     }
 
                     @Override
                     public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                        Log.d("TEST", "Subscribed fail!");
+                        Log.d(arrayTopics[index], ":Subscribed fail!");
                     }
                 });
 
@@ -111,5 +112,6 @@ public class MQTTHelper {
             }
         }
     }
+
 
 }
